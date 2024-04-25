@@ -1,15 +1,18 @@
 name: SSH deploy on push
-on: push
+on:
+  push:
+    branches: main
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: rsync deploy
-        uses: burnett01/rsync-deployments@5.2.1
+        uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -avzr --delete
           path: .
+          legacy_allow_rsa_hostkeys: "true"
           remote_host: ${{ secrets.REMOTE_HOST }}
           remote_user: ${{ secrets.REMOTE_USER }}
           remote_key: ${{ secrets.REMOTE_KEY }}
